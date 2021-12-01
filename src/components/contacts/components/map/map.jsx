@@ -26,10 +26,13 @@ function Map() {
           })
           .addTo(map);
       }
-    }, [map]);
+    }, [map, cityLocation]);
 
   return (
     <div
+    style={{
+      width: 649,
+      height: 336}}
       ref={mapRef}
     >
     </div>
