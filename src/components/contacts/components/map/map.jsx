@@ -3,12 +3,14 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../../../hooks/use-map';
 import { cityLocation, URL_MARKER } from 'const';
-import { Icon, Marker } from 'leaflet';
+
+const ICON_WIDTH = 46;
+const ICON_HEIGHT = 60;
 
 const customIcon = leaflet.icon({
   iconUrl: URL_MARKER,
-  iconSize: [46, 60],
-  iconAnchor: [23, 50],
+  iconSize: [ICON_WIDTH, ICON_HEIGHT],
+  iconAnchor: [ICON_WIDTH/2, ICON_HEIGHT],
 });
 
 

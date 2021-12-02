@@ -1,57 +1,104 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MainLayout } from 'components/common/common';
 import { ReactComponent as IconClock } from 'assets/img/icon-clock.svg';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import * as S from './detailed-quest.styled';
 import { BookingModal } from './components/components';
+import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchQuestAction } from 'store/api-action';
+import { questRequest } from 'store/action';
+import LoadingScreen from 'components/loading-sreen/loading-screen';
+import NotFoundScreen from 'components/not-found-screen/not-found-screen';
+import { subject, levelDictionary } from 'const';
 
-const DetailedQuest = () => {
+const mapStateToProps = ({
+  questLoading,
+  quest,
+  questError,
+}) => ({
+  questLoading,
+  quest,
+  questError,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  questRequest(id) {
+    dispatch(fetchQuestAction(id));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const DetailedQuest = ({
+  questLoading,
+  quest,
+  questError,
+  questRequest,
+}) => {
+  const { id } = useParams();
+
+  useEffect(() => {
+    questRequest(id);
+  }, [id]);
+
   const [isBookingModalOpened, setIsBookingModalOpened] = useState(false);
 
   const onBookingBtnClick = () => {
     setIsBookingModalOpened(true);
   };
 
+  if (!questError) {
+    if ( questLoading  || !quest) {
+      return <LoadingScreen/>;
+    }
+  } else {
+    return <NotFoundScreen/>;
+  }
+
+  const {
+    title,
+    description,
+    coverImg,
+    level,
+    peopleCount,
+    type,
+    duration,
+  } = quest;
+
   return (
     <MainLayout>
       <S.Main>
         <S.PageImage
-          src="img/cover-maniac.jpg"
-          alt="Квест Маньяк"
+          src={coverImg}
+          alt={`Квест ${title}`}
           width="1366"
           height="768"
         />
         <S.PageContentWrapper>
           <S.PageHeading>
-            <S.PageTitle>Маньяк</S.PageTitle>
-            <S.PageSubtitle>приключения</S.PageSubtitle>
+            <S.PageTitle>{title}</S.PageTitle>
+            <S.PageSubtitle>{subject[type]}</S.PageSubtitle>
           </S.PageHeading>
 
           <S.PageDescription>
             <S.Features>
               <S.FeaturesItem>
                 <IconClock width="20" height="20" />
-                <S.FeatureTitle>90 мин</S.FeatureTitle>
+                <S.FeatureTitle>{`${duration} мин`}</S.FeatureTitle>
               </S.FeaturesItem>
               <S.FeaturesItem>
                 <IconPerson width="19" height="24" />
-                <S.FeatureTitle>3–6 чел</S.FeatureTitle>
+                <S.FeatureTitle>{`${peopleCount[0]}–${peopleCount[1]} чел`}</S.FeatureTitle>
               </S.FeaturesItem>
               <S.FeaturesItem>
                 <IconPuzzle width="24" height="24" />
-                <S.FeatureTitle>средний</S.FeatureTitle>
+                <S.FeatureTitle>{levelDictionary[level]}</S.FeatureTitle>
               </S.FeaturesItem>
             </S.Features>
 
-            <S.QuestDescription>
-              В комнате с приглушённым светом несколько человек, незнакомых друг
-              с другом, приходят в себя. Никто не помнит, что произошло прошлым
-              вечером. Руки и ноги связаным, но одному из вас получилось
-              освободиться. На стене висит пугающий таймер и запущен отстёт
-              60&nbsp;минут. Сможете ли вы разобраться в стрессовой ситуации,
-              помочь другим, разобраться что произошло и выбраться из комнаты?
-            </S.QuestDescription>
+            <S.QuestDescription>{description}</S.QuestDescription>
 
             <S.QuestBookingBtn onClick={onBookingBtnClick}>
               Забронировать
@@ -65,4 +112,5 @@ const DetailedQuest = () => {
   );
 };
 
-export default DetailedQuest;
+export {DetailedQuest};
+export default connector(DetailedQuest);
