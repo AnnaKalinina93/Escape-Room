@@ -71,7 +71,7 @@ const DetailedQuest = ({
     <MainLayout>
       <S.Main>
         <S.PageImage
-          src={coverImg}
+          src={`/${coverImg}`}
           alt={`Квест ${title}`}
           width="1366"
           height="768"
