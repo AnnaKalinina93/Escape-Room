@@ -1,7 +1,11 @@
-export const URL_MARKER = 'img/icon-map.png';
+export const DetailsIcon = {
+  Url: 'img/icon-map.png',
+  Width: 46,
+  Height: 60,
+}
 
-export const cityLocation = {
-lat: 59.968322,
+export const address = {
+lat: 59.968182,
 lng: 30.317359,
 zoom: 16,
 }
@@ -15,9 +19,10 @@ export const subject = {
   ['sci-fi']: 'Sci-fi',
 };
 
-export const apiRoute = {
-  quests: '/quests',
-  orders: '/orders',
+export const ApiRoute = {
+  Quests: '/quests',
+  Quest: 'http://localhost:3001/quests',
+  Orders: 'http://localhost:3001/orders',
 }
 
 export const levelDictionary = {
@@ -25,3 +30,9 @@ export const levelDictionary = {
   medium: 'средний',
   hard: 'сложный',
 }
+
+export const AppRoute = {
+  Home: '/',
+  Quest: '/quest/:id',
+  Contacts: '/contacts',
+};

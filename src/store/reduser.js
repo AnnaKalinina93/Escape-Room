@@ -1,5 +1,5 @@
-import { subject } from "const";
-import { actionType } from "./action";
+import { subject } from 'const';
+import { actionType } from './action';
 
 const initialState = {
   activeSubject: subject.allQuests,
@@ -9,7 +9,8 @@ const initialState = {
   quest: null,
   questLoading: false,
   questError: false,
-}
+  ordersLoading: false,
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,7 +22,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         questsLoading: false,
-        quests: action.payload
+        quests: action.payload,
       };
     case actionType.questsFailed:
       return {
@@ -29,19 +30,34 @@ const reducer = (state = initialState, action) => {
         questsLoading: false,
         questsError: true,
       };
-      case actionType.questRequest:
-      return { ...state, questLoading: true , questError: false};
+    case actionType.questRequest:
+      return { ...state, questLoading: true, questError: false };
     case actionType.questSucceeded:
       return {
         ...state,
         questLoading: false,
-        quest: action.payload
+        quest: action.payload,
       };
     case actionType.questFailed:
       return {
         ...state,
         questLoading: false,
         questError: true,
+      };
+    case actionType.ordersRequest:
+      return {
+        ...state,
+        ordersLoading: true,
+      };
+    case actionType.ordersSucceeded:
+      return {
+        ...state,
+        ordersLoading: false,
+      };
+    case actionType.ordersFailed:
+      return {
+        ...state,
+        ordersLoading: false,
       };
     default:
       return state;

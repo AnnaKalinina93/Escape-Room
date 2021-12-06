@@ -22,13 +22,12 @@ const store = createStore(
   ),
 );
 
-(store.dispatch)(fetchQuestsAction());
-
+store.dispatch(fetchQuestsAction());
 
 render(
   <StrictMode>
     <Provider store={store}>
-    <ToastContainer />
+      <ToastContainer />
       <App />
     </Provider>
   </StrictMode>,

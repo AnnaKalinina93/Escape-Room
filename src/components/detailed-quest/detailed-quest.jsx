@@ -8,7 +8,6 @@ import { BookingModal } from './components/components';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchQuestAction } from 'store/api-action';
-import { questRequest } from 'store/action';
 import LoadingScreen from 'components/loading-sreen/loading-screen';
 import NotFoundScreen from 'components/not-found-screen/not-found-screen';
 import { subject, levelDictionary } from 'const';
@@ -45,8 +44,8 @@ const DetailedQuest = ({
 
   const [isBookingModalOpened, setIsBookingModalOpened] = useState(false);
 
-  const onBookingBtnClick = () => {
-    setIsBookingModalOpened(true);
+  const handleBookingBtnClick = () => {
+    setIsBookingModalOpened(!isBookingModalOpened);
   };
 
   if (!questError) {
@@ -100,13 +99,13 @@ const DetailedQuest = ({
 
             <S.QuestDescription>{description}</S.QuestDescription>
 
-            <S.QuestBookingBtn onClick={onBookingBtnClick}>
+            <S.QuestBookingBtn onClick={handleBookingBtnClick}>
               Забронировать
             </S.QuestBookingBtn>
           </S.PageDescription>
         </S.PageContentWrapper>
 
-        {isBookingModalOpened && <BookingModal />}
+        {isBookingModalOpened && <BookingModal  onBookingBtnClick={() => handleBookingBtnClick()}/>}
       </S.Main>
     </MainLayout>
   );

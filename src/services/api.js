@@ -17,8 +17,9 @@ export const createAPI = () => {
     },
   );
 
-  api.interceptors.request.use(
-    (config) => config);
+  api.interceptors.request.use((config) => {
+    return config;
+  });
 
   return api;
 };

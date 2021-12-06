@@ -175,6 +175,10 @@ const BookingCheckboxLabel = styled.label`
   }
 `;
 
+const BookingError = styled.p`
+  color: rgba(255, 24, 0, 1);
+`;
+
 const BookingCheckboxInput = styled.input.attrs({
   className: 'visually-hidden',
 })`
@@ -226,4 +230,5 @@ export {
   BookingCheckboxInput,
   BookingCheckboxText,
   BookingLegalLink,
+  BookingError,
 };

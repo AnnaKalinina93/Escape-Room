@@ -25,7 +25,7 @@ const QuestsCatalog = ({quests, activeSubject, onUserAnswer}) => {
   <>
     <S.Tabs>
     {Object.entries(subject).map(([key,value]) => (
-      <S.TabItem>
+      <S.TabItem key={key}>
         <S.TabBtn
         isActive={activeSubject === value}
         onClick={(evt) => {
@@ -49,7 +49,7 @@ const QuestsCatalog = ({quests, activeSubject, onUserAnswer}) => {
     peopleCount,
   } = quest;
   return (
-    <S.QuestItem>
+    <S.QuestItem key={id}>
         <S.QuestItemLink to={`/quest/${id}`}>
           <S.Quest>
             <S.QuestImage

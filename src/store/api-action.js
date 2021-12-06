@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { apiRoute } from 'const';
+import { ApiRoute, AppRoute } from 'const';
 import {
   questsRequest,
   questsSucceeded,
@@ -7,37 +7,51 @@ import {
   questRequest,
   questSucceeded,
   questFailed,
+  ordersRequest,
+  ordersSucceeded,
+  ordersFailed,
+  redirectToRoute,
 } from './action';
 
-const errorMessages = 'Не удалось отправить запрос, попробуйте еще раз';
+const messages = {
+  error: 'Не удалось отправить запрос, попробуйте еще раз',
+  post: 'Ваша заявка отправлена, мы скоро свяжемся с Вами',
+};
 
-export const fetchQuestsAction = () =>
-  async (dispatch, _, api) => {
-    dispatch(questsRequest());
-    try {
-      const { data } = await api.get(apiRoute.quests);
-      dispatch(questsSucceeded(data));
-    } catch {
-      dispatch(questsFailed());
-    }
-  };
+export const fetchQuestsAction = () => async (dispatch, _, api) => {
+  dispatch(questsRequest());
+  try {
+    const { data } = await api.get(ApiRoute.Quests);
+    dispatch(questsSucceeded(data));
+  } catch {
+    dispatch(questsFailed());
+  }
+};
 
-  export const fetchQuestAction = (id) =>
-  async (dispatch, _, api) => {
-    dispatch(questRequest());
-    try {
-      const { data } = await api.get(`http://localhost:3001/quests/${id}`);
-      dispatch(questSucceeded(data));
-    } catch {
-      dispatch(questFailed());
-    }
-  };
+export const fetchQuestAction = (id) => async (dispatch, _, api) => {
+  dispatch(questRequest());
+  try {
+    const { data } = await api.get(`${ApiRoute.Quest}/${id}`);
+    dispatch(questSucceeded(data));
+  } catch {
+    dispatch(questFailed());
+  }
+};
 
-  export const postOrders = (orders) =>
-  async (_dispatch, _, api) => {
-    try {
-      await api.post(apiRoute.orders, orders);
-    } catch {
-      toast.info(errorMessages.postOrders);
-    }
-  };
+export const postOrdersAction = ({
+  name,
+  peopleCount,
+  phone,
+  isLegal,
+}) => async (dispatch, _, api) => {
+  dispatch(ordersRequest());
+  try {
+    await api.post(ApiRoute.Orders, { name, peopleCount, phone, isLegal });
+    dispatch(ordersSucceeded());
+    dispatch(redirectToRoute(AppRoute.Home));
+    toast.info(messages.post);
+  } catch {
+    dispatch(ordersFailed());
+    toast.info(messages.error);
+  }
+};

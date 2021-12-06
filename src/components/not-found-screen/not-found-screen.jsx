@@ -3,6 +3,7 @@ import {
   PageTitle,
   PageHeading,
 } from 'components/common/common';
+import { AppRoute } from 'const';
 import * as S from './not-found-screen.styled';
 
 
@@ -12,7 +13,7 @@ const NotFoundScreen = () => (
       <PageHeading>
         <PageTitle>404. Page not found</PageTitle>
         <S.LinkItem>
-            <S.Link $isActiveLink to="/">
+            <S.Link $isActiveLink to={AppRoute.Home}>
               Вернуться на главную
             </S.Link>
         </S.LinkItem>
